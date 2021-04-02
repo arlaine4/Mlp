@@ -1,6 +1,5 @@
 import argparse
 import sys
-
 import pandas as pd
 
 def read_data_from_csv():
@@ -35,6 +34,10 @@ def get_diagnosis_with_reader_change(reader):
 
 
 def parse_args():
+    """
+        Basic argument Parser
+    :return: argparse.ArgumentParser()
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument('-t', '--train', action='store_true', help='training mode')
     parser.add_argument('-p', '--predict', action='store_true', help='predict mode')
@@ -43,6 +46,12 @@ def parse_args():
 
 
 def import_training_data():
+    """
+        This method allow us to gather weight and activation values from
+        training
+        -> used for predictions
+    :return: not decided yet
+    """
     # TODO
     return None
 
