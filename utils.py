@@ -2,6 +2,7 @@ import argparse
 import sys
 import pandas as pd
 
+
 def read_data_from_csv():
     lst_names = ['ID', 'Diagnosis', 'Radius', 'Texture', 'Perimeter', 'Area', 'Smoothness', 'Compactness',
                  'Concavity', 'Concave points', 'Symmetry', 'Fractal Dimension', 'Radius Mean',
@@ -16,7 +17,7 @@ def read_data_from_csv():
         sys.exit(0)
     del reader['ID']
     reader, diagnosis = get_diagnosis_with_reader_change(reader)
-    return reader
+    return reader, diagnosis
 
 
 def get_diagnosis_with_reader_change(reader):
@@ -44,7 +45,7 @@ def parse_args():
     options = parser.parse_args()
     return options
 
-
+# This method won't be done until the training program is working
 def import_training_data():
     """
         This method allow us to gather weight and activation values from
