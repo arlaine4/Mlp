@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+import mlp_maths as mlp
 
 def get_arguments():
     args = argparse.ArgumentParser()
@@ -79,9 +80,36 @@ def get_data(file_path):
     # => train_inputs, train_labels, test_inputs and test_labels
     # ==> inputs is just what you feed the model and labels are
     # ==> the results associated with each input
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y.T, test_size = 0.25, random_state = 1)
+    X_train, X_test, Y_train, Y_test = train_test_split(X, Y.T, test_size = 0.2, random_state = 1)
     X_train = X_train.T
     X_test = X_test.T
     Y_train = Y_train.reshape((1, len(Y_train)))
     Y_test = Y_test.reshape((1, len(Y_test)))
     return X_train, X_test, Y_train, Y_test
+
+def update_gradiant(dW1, db1, dW2, db2, grads):
+    grads['dW1'] = dW1
+    grads['db1'] = db1
+    grads['dW2'] = dW2
+    grads['db2'] = db2
+    return grads
+
+def unpack_model_params(params):
+    W1 = params['W1']
+    b1 = params['b1']
+    W2 = params['W2']
+    b2 = params['b2']
+    return W1, b1, W2, b2
+
+def print_epoch_state(i, epoch, cost, loss, lr):
+    print("Epoch {}/{} - loss : {} - val_loss : {} - learning_rate : {:.8f}".format(i + 1, epoch, "%.4f" % cost, "%.4f" % loss, lr))
+
+def print_prediction(X, Y, params, train_or_test):
+    accuracy, y = mlp.predict(X, Y, params)
+    print("Accuracy on the {} set : {:.2f}".format("training" if train_or_test else "test", accuracy * 100))
+
+def update_model_parameters(params, gradiants, lr):
+    for i in range(len(params) // 2):
+        params['W' + str(i + 1)] -= lr * gradiants['dW' + str(i + 1)]
+        params['b' + str(i + 1)] -= lr * gradiants['db' + str(i + 1)]
+    return params['W1'], params['b1'], params['W2'], params['b2']
