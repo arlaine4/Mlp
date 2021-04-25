@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
+import matplotlib.pyplot as plt
 import mlp_maths as mlp
 
 def get_arguments():
@@ -53,7 +54,7 @@ def initialize_model_structure(s_x, s_h, s_y):
         we initialize biases with 0 not
         like the weights
     """
-    np.random.seed(42)
+    #np.random.seed(41)
     struct = {"W1" : np.random.randn(s_h, s_x) * 0.01,
                 "b1" : np.zeros((s_h, 1)),
                 "W2" : np.random.randn(s_y, s_h) * 0.01,
@@ -100,6 +101,14 @@ def unpack_model_params(params):
     W2 = params['W2']
     b2 = params['b2']
     return W1, b1, W2, b2
+
+def	plot_cost_loss(costs, losses):
+	plt.plot(np.squeeze(costs), 'b', label = 'cost')
+	plt.plot(np.squeeze(losses), 'r', label = 'value loss')
+	plt.ylabel('cost and loss values')
+	plt.xlabel('Iterations')
+	plt.title('Cost (blue) and Loss (red)')
+	plt.show()
 
 def print_epoch_state(i, epoch, cost, loss, lr):
     print("Epoch {}/{} - loss : {} - val_loss : {} - learning_rate : {:.8f}".format(i + 1, epoch, "%.4f" % cost, "%.4f" % loss, lr))
