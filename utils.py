@@ -54,14 +54,14 @@ def initialize_model_structure(s_x, s_h, s_y):
         we initialize biases with 0 not
         like the weights
     """
-    #np.random.seed(41)
+    np.random.seed(100)
     struct = {"W1" : np.random.randn(s_h, s_x) * 0.01,
                 "b1" : np.zeros((s_h, 1)),
                 "W2" : np.random.randn(s_y, s_h) * 0.01,
                 "b2" : np.zeros((s_y, 1))}
     return struct
 
-def get_data(file_path):
+def get_data(file_path, prediction_mode = False):
     """
     Getting data from data_path
         X_train = training inputs
@@ -73,20 +73,28 @@ def get_data(file_path):
         data = pd.read_csv(file_path, header=None)
     except:
         sys.exit("This csv is not valid")
-    Y = np.array([data[1]])
-    Y = np.where(Y == "M", 1, 0)
-    X = np.array(data.iloc[:, 2:])
-    X = normalize_data(X)
-    # train_test_split is a method that splits a dataset into subparts
-    # => train_inputs, train_labels, test_inputs and test_labels
-    # ==> inputs is just what you feed the model and labels are
-    # ==> the results associated with each input
-    X_train, X_test, Y_train, Y_test = train_test_split(X, Y.T, test_size = 0.2, random_state = 1)
-    X_train = X_train.T
-    X_test = X_test.T
-    Y_train = Y_train.reshape((1, len(Y_train)))
-    Y_test = Y_test.reshape((1, len(Y_test)))
-    return X_train, X_test, Y_train, Y_test
+    if not prediction_mode:
+        Y = np.array([data[1]])
+        Y = np.where(Y == "M", 1, 0)
+        X = np.array(data.iloc[:, 2:])
+        X = normalize_data(X)
+        # train_test_split is a method that splits a dataset into subparts
+        # => train_inputs, train_labels, test_inputs and test_labels
+        # ==> inputs is just what you feed the model and labels are
+        # ==> the results associated with each input
+        X_train, X_test, Y_train, Y_test = train_test_split(X, Y.T, test_size = 0.2, random_state = 1)
+        X_train = X_train.T
+        X_test = X_test.T
+        Y_train = Y_train.reshape((1, len(Y_train)))
+        Y_test = Y_test.reshape((1, len(Y_test)))
+        return X_train, X_test, Y_train, Y_test
+    elif prediction_mode:
+        Y = np.array([data[1]])
+        Y = np.where(Y == "M", 1, 0)
+        X = np.array(data.iloc[:, 2:])
+        X = normalize_data(X)
+        X = X.T
+        return X, Y
 
 def update_gradiant(dW1, db1, dW2, db2, grads):
     grads['dW1'] = dW1
@@ -102,13 +110,13 @@ def unpack_model_params(params):
     b2 = params['b2']
     return W1, b1, W2, b2
 
-def	plot_cost_loss(costs, losses):
-	plt.plot(np.squeeze(costs), 'b', label = 'cost')
-	plt.plot(np.squeeze(losses), 'r', label = 'value loss')
-	plt.ylabel('cost and loss values')
-	plt.xlabel('Iterations')
-	plt.title('Cost (blue) and Loss (red)')
-	plt.show()
+def plot_cost_loss(costs, losses):
+    plt.plot(np.squeeze(costs), 'b', label = 'cost')
+    plt.plot(np.squeeze(losses), 'r', label = 'value loss')
+    plt.ylabel('cost and loss values')
+    plt.xlabel('Iterations')
+    plt.title('Cost (blue) and Loss (red)')
+    plt.show()
 
 def print_epoch_state(i, epoch, cost, loss, lr):
     print("Epoch {}/{} - loss : {} - val_loss : {} - learning_rate : {:.8f}".format(i + 1, epoch, "%.4f" % cost, "%.4f" % loss, lr))

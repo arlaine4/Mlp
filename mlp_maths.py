@@ -126,7 +126,7 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params):
 	   -> value_losses = list of value loss overtime
    """
    lr = 0.01
-   epoch = 10000
+   epoch = 5000
    W1, b1, W2, b2 = utils.unpack_model_params(params)
    gradiants = {}
    costs = []
@@ -159,7 +159,7 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params):
 	   W1, b1, W2, b2 = utils.update_model_parameters(params, gradiants, lr)
 
 	   #Adjusting learning rate over time
-	   if i > 2500 and i % 100 == 0:
+	   if i > 2000 and i % 100 == 0:
 		   lr = (1. / (1.+ lr * epoch))
 
 	   #Print epoch state every 100 time

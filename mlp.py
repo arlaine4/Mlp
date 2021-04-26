@@ -2,6 +2,7 @@ import numpy as np
 import utils
 import sys
 import mlp_maths as mlp
+import pickle
 
 if __name__ == "__main__":
     options = utils.get_arguments()
@@ -19,3 +20,18 @@ if __name__ == "__main__":
 
         utils.print_prediction(X_train, Y_train, model_params, True)
         utils.print_prediction(X_test, Y_test, model_params, False)
+        try:
+            with open("model_params.pkl", 'wb') as fd:
+                pickle.dump(model_params, fd)
+        except:
+            sys.exit("Issue with model dump")
+    elif options.mode == "prediction":
+        try:
+            with open('model_params.pkl', 'rb') as fd:
+                    parameters = pickle.load(fd)
+        except:
+            sys.exit("Can't find model_params.pkl, please run the program in 'learning' mode first")
+        X, Y = utils.get_data(options.data_path, True)
+        accuracy, yhat = mlp.predict(X, Y, parameters)
+        print("Accuracy for {} : {:.2f}".format(str(options.data_path), accuracy * 100))
+
