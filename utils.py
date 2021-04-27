@@ -10,6 +10,8 @@ def get_arguments():
     args = argparse.ArgumentParser()
     args.add_argument("data_path", help='file path to data')
     args.add_argument("mode", help='mode to run the program with')
+    args.add_argument("-erl", "--erl", action='store_true', help='use early stopping')
+    args.add_argument("-plt", "--plt", action='store_true', help='plot learning curves')
     options = args.parse_args()
     return options
 

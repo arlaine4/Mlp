@@ -16,7 +16,7 @@ if __name__ == "__main__":
 		# Initializing model
         model_params = utils.initialize_model_structure(size_x, size_hidden, size_y)
 		# Neural network loop
-        model_params = mlp.neural_network(X_train, Y_train, X_test, Y_test, size_x, size_hidden, size_y, model_params)
+        model_params = mlp.neural_network(X_train, Y_train, X_test, Y_test, size_x, size_hidden, size_y, model_params, options)
 
         utils.print_prediction(X_train, Y_train, model_params, True)
         utils.print_prediction(X_test, Y_test, model_params, False)
