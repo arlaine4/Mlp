@@ -56,7 +56,7 @@ def initialize_model_structure(s_x, s_h, s_y):
         we initialize biases with 0 not
         like the weights
     """
-    np.random.seed(100)
+    np.random.seed(29)
     struct = {"W1" : np.random.randn(s_h, s_x) * 0.01,
                 "b1" : np.zeros((s_h, 1)),
                 "W2" : np.random.randn(s_y, s_h) * 0.01,
@@ -121,11 +121,11 @@ def plot_cost_loss(costs, losses):
     plt.show()
 
 def print_epoch_state(i, epoch, cost, loss, lr):
-    print("Epoch {}/{} - loss : {} - val_loss : {} - learning_rate : {:.8f}".format(i + 1, epoch, "%.4f" % cost, "%.4f" % loss, lr))
+    print("Epoch {}/{} - loss : {} - val_loss : {} - learning_rate : {:.8f}".format(i, epoch, "%.4f" % cost, "%.4f" % loss, lr))
 
 def print_prediction(X, Y, params, train_or_test):
     accuracy, y = mlp.predict(X, Y, params)
-    print("Accuracy on the {} set : {:.2f}".format("training" if train_or_test else "test", accuracy * 100))
+    print("Accuracy on the {} set : {:.2f} %".format("training" if train_or_test else "test", accuracy * 100))
 
 def update_model_parameters(params, gradiants, lr):
     for i in range(len(params) // 2):

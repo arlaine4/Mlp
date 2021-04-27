@@ -33,5 +33,5 @@ if __name__ == "__main__":
             sys.exit("Can't find model_params.pkl, please run the program in 'learning' mode first")
         X, Y = utils.get_data(options.data_path, True)
         accuracy, yhat = mlp.predict(X, Y, parameters)
-        print("Accuracy for {} : {:.2f}".format(str(options.data_path), accuracy * 100))
+        print("Accuracy for {} : {:.2f} %".format(str(options.data_path), accuracy * 100))
 

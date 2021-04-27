@@ -76,19 +76,18 @@ def backward_pass(dA, AL, Y, cached, activation_func):
    dA_prev = np.dot(W.T, dZ)
    return dA_prev, dW, db
 
-def binary_cross_entropy(actual, predicted):
+"""def binary_crossentropy(actual, predicted):
    sum_score = actual * np.log(1e-6 + predicted)
    mean_sum_score = 1.0 / np.size(actual, axis = 0) * sum_score
-   return sum_score
+   return sum_score"""
 
-def calculate_cost(al, Y):
+def calculate_cost(yhat, Y):
    """
    Method used to calculate loss and cost values
 	   1e-6 is often called epsilon, It's here to help avoid
 	   divisions / log etc by 0
    """
-   m = Y.shape[1]
-   cost = (-1 / m) * np.sum(Y * np.log(al + 1e-6) + (1 - Y) * np.log(1 - al + 1e-6), 
+   cost = (-1 / Y.shape[1]) * np.sum(Y * np.log(yhat + 1e-6) + (1 - Y) * np.log(1 - yhat + 1e-6), 
 		   keepdims=True, axis = 1)
    cost = np.squeeze(cost)
    return cost
@@ -125,8 +124,8 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params, options):
            -> costs = list of costs overtime
            -> value_losses = list of value loss overtime
    """
-   lr = 0.01
-   epoch = 10000
+   lr = 0.001
+   epoch = 20000
    W1, b1, W2, b2 = utils.unpack_model_params(params)
    gradiants = {}
    costs = []
@@ -159,7 +158,7 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params, options):
        W1, b1, W2, b2 = utils.update_model_parameters(params, gradiants, lr)
 
        #Adjusting learning rate over time
-       if i > 2500 and i % 100 == 0:
+       if i % 100 == 0:
            lr = (1. / (1.+ lr * epoch))
 
        #Print epoch state every 100 time
@@ -168,8 +167,7 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params, options):
            costs.append(cost)
            value_losses.append(loss)
            if options.erl and (i > 2000 and value_losses[int(i / 100)] > value_losses[int((i - 1) / 100)]):
-               utils.print_epoch_state(i, epoch, cost, loss, lr)
-               print("Early stopping at epoch : ", i + 1)
+               print("Early stopping at epoch : ", i)
                break
    if options.plt:
        utils.plot_cost_loss(costs, value_losses)
