@@ -7,13 +7,14 @@ import matplotlib.pyplot as plt
 import mlp_maths as mlp
 
 def get_arguments():
-    args = argparse.ArgumentParser()
-    args.add_argument("data_path", help='file path to data')
-    args.add_argument("mode", help='mode to run the program with')
-    args.add_argument("-erl", "--erl", action='store_true', help='use early stopping')
-    args.add_argument("-plt", "--plt", action='store_true', help='plot learning curves')
-    options = args.parse_args()
-    return options
+   args = argparse.ArgumentParser()
+   args.add_argument("data_path", help='file path to data')
+   args.add_argument("mode", help='mode to run the program with')
+   args.add_argument("-erl", "--erl", action='store_true', help='use early stopping')
+   args.add_argument("-plt", "--plt", action='store_true', help='plot learning curves')
+   args.add_argument("-cf", "--cf", action="store_true", help="trigger confusion matrix print for prediction")
+   options = args.parse_args()
+   return options
 
 def check_arguments(args):
     if args.mode != 'prediction' and args.mode != 'learning':
@@ -132,3 +133,7 @@ def update_model_parameters(params, gradiants, lr):
         params['W' + str(i + 1)] -= lr * gradiants['dW' + str(i + 1)]
         params['b' + str(i + 1)] -= lr * gradiants['db' + str(i + 1)]
     return params['W1'], params['b1'], params['W2'], params['b2']
+
+def	print_confusion_matrix(yhat, y):
+	cm = confusion_matrix(y, yhat)
+	print("\nConfusion Matrix :\n",cm)
