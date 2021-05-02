@@ -10,4 +10,7 @@ python3 mlp.py data.csv (or any dataset generated) learning
 	-plt to plot loss and cost after training
 
 after the training you can run the program with prediction param:
-python3 mlp.py data.csv (or any dataset generated) prediction 
+python3 mlp.py data.csv (or any dataset generated) prediction
+-> You can specify -cf while launching prediction mode
+--> This will print in the terminal the confusion matrix related to the test set
+	given for the prediction
