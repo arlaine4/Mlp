@@ -35,7 +35,7 @@ def derivate_relu(dA, Z):
 def softmax(x):
    """
    Softmax activation value,
-   Used to give a probabistic output
+   Used to give a probabilistic output
    """
    return (np.exp(x) / np.sum(np.exp(x) + 1e-6, axis = 0))
 

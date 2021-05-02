@@ -12,7 +12,6 @@ def get_arguments():
     args.add_argument("mode", help='mode to run the program with')
     args.add_argument("-erl", "--erl", action='store_true', help='use early stopping')
     args.add_argument("-plt", "--plt", action='store_true', help='plot learning curves')
-    args.add_argument("-erl", "--erl", action='store_true', help='use early stopping')
     options = args.parse_args()
     return options
 
