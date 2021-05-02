@@ -125,7 +125,7 @@ def neural_network(X, Y, X_test, Y_test, s_x, s_h, s_y, params, options):
            -> value_losses = list of value loss overtime
    """
    lr = 0.001
-   epoch = 20000
+   epoch = 40000
    W1, b1, W2, b2 = utils.unpack_model_params(params)
    gradiants = {}
    costs = []
